@@ -21,9 +21,26 @@ export const OpenAiLive = OpenAiClient.layerConfig({
   ),
 }).pipe(Layer.provide(NodeHttpClient.layerUndici))
 
-export const CompletionsLive = OpenAiCompletions.layer({
+export const OpenAiCompletionsLive = OpenAiCompletions.layer({
   model: "gpt-4o",
 }).pipe(Layer.provide(OpenAiLive))
+
+export const GeminiLive = OpenAiClient.layerConfig({
+  apiKey: Config.redacted("GEMINI_API_KEY"),
+  apiUrl: Config.string("GEMINI_BASE_URL").pipe(
+    Config.withDefault("https://generativelanguage.googleapis.com/v1beta/openai/"),
+  ),
+  transformClient: Config.succeed(
+    HttpClient.retryTransient({
+      times: 3,
+      schedule: Schedule.exponential(500),
+    }),
+  ),
+}).pipe(Layer.provide(NodeHttpClient.layerUndici))
+
+export const CompletionsLive = OpenAiCompletions.layer({
+  model: "gemini-2.0-flash-lite",
+}).pipe(Layer.provide(GeminiLive))
 
 export class AiHelpers extends Effect.Service<AiHelpers>()("app/AiHelpers", {
   effect: Effect.gen(function* () {
@@ -82,7 +99,7 @@ Create a short title summarizing the message. Do not include markdown in the tit
         ),
         OpenAiCompletions.withConfigOverride({
           temperature: 0.25,
-          max_tokens: 64,
+          max_tokens: 128,
         }),
         Effect.map(_ => cleanTitle(_.text)),
         Effect.withSpan("Ai.generateTitle", { attributes: { prompt } }),
@@ -91,7 +108,7 @@ Create a short title summarizing the message. Do not include markdown in the tit
     const generateDocs = (
       title: string,
       messages: AiInput.AiInput,
-      instruction = "Create a documentation article from the above chat messages. The article should be written in markdown and should contain code examples where appropiate.",
+      instruction = "Create a reStructuredText documentation article, including code examples if appropriate.",
     ) =>
       pipe(
         tokenizer.truncate(
@@ -111,7 +128,7 @@ The title of this chat is "${title}".`,
       generateDocs(
         title,
         messages,
-        "Summarize the above messages. Also include some key takeaways.",
+        "Create a GitHub issue from the conversation using GitHub flavored markdown. Detail the core problem, relevant context (setup, attempts), reproduction steps, and key takeaways.",
       )
 
     return {
