@@ -23,8 +23,12 @@ export class NotInThreadError extends Data.TaggedError(
 )<{}> {}
 
 const githubRepos = [
-  { label: "/effect", owner: "effect-ts", repo: "effect" },
-  { label: "/website", owner: "effect-ts", repo: "website" },
+  { label: "/main", owner: "geldata", repo: "gel" },
+  { label: "/js", owner: "geldata", repo: "gel-js" },
+  { label: "/py", owner: "geldata", repo: "gel-python" },
+  { label: "/go", owner: "geldata", repo: "gel-go" },
+  { label: "/rust", owner: "geldata", repo: "gel-rust" },
+  { label: "/ui", owner: "geldata", repo: "gel-ui" },
 ]
 type GithubRepo = (typeof githubRepos)[number]
 
