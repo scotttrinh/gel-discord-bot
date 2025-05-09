@@ -9,8 +9,8 @@ const make = Effect.gen(function* () {
   const topicKeyword = yield* Config.string("keyword").pipe(
     Config.withDefault("[noembed]"),
   )
-  const urlWhitelist = yield* Config.array(Config.string("urlWhitelist")).pipe(
-    Config.withDefault(["geldata.com"]),
+  const urlInclude = yield* Config.array(Config.string("urlInclude")).pipe(
+    Config.withDefault(["geldata.com", "github.com"]),
   )
   const urlExclude = yield* Config.array(Config.string("urlExclude")).pipe(
     Config.withDefault([]),
@@ -20,7 +20,7 @@ const make = Effect.gen(function* () {
   const channels = yield* ChannelsCache
 
   const validUrl = (url: string) =>
-    urlWhitelist.some(_ => url.includes(_)) &&
+    urlInclude.some(_ => url.includes(_)) &&
     !urlExclude.some(_ => url.includes(_))
 
   const getChannel = (guildId: string, id: string) =>

@@ -27,7 +27,7 @@ const make = Effect.gen(function* () {
   ) =>
     ai.generateAiInput(thread, message).pipe(
       Effect.flatMap(completions.create),
-      AiInput.provideSystem(`You are Effect Bot, a funny, helpful assistant for the Effect Discord community.
+      AiInput.provideSystem(`You are Gel Discord Bot, a funny, helpful assistant for the Gel Discord community.
 
 Please keep replies under 2000 characters.
 
