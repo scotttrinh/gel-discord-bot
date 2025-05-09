@@ -23,12 +23,14 @@ export class NotInThreadError extends Data.TaggedError(
 )<{}> {}
 
 const githubRepos = [
-  { label: "/main", owner: "geldata", repo: "gel" },
+  { label: "/gel", owner: "geldata", repo: "gel" },
   { label: "/js", owner: "geldata", repo: "gel-js" },
   { label: "/py", owner: "geldata", repo: "gel-python" },
   { label: "/go", owner: "geldata", repo: "gel-go" },
   { label: "/rust", owner: "geldata", repo: "gel-rust" },
   { label: "/ui", owner: "geldata", repo: "gel-ui" },
+  { label: "/main", owner: "geldata", repo: "gel" },
+  { label: "/server", owner: "geldata", repo: "gel" },
 ]
 type GithubRepo = (typeof githubRepos)[number]
 
@@ -113,7 +115,7 @@ https://discord.com/channels/${channel.guild_id}/${channel.id}
     {
       name: "issueify",
       description:
-        "Convert this thread into an issue for the Effect Website repo",
+        "Convert this thread into an GitHub issue",
       options: [
         {
           type: Discord.ApplicationCommandOptionType.NUMBER,
