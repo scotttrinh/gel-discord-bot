@@ -9,7 +9,7 @@ export const PlaygroundLive = Effect.gen(function* () {
   const linkFromCode = (code: string) =>
     Effect.sync(() => {
       const encoded = Encoding.encodeBase64Url(code)
-      return `https://effect.website/play/?code=${encoded}`
+      return `https://geldata.com/play/?code=${encoded}`
     })
 
   const menu = Ix.global(

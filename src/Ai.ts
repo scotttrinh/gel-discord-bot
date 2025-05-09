@@ -76,7 +76,7 @@ export class AiHelpers extends Effect.Service<AiHelpers>()("app/AiHelpers", {
     const generateTitle = (prompt: string) =>
       completions.create(prompt).pipe(
         AiInput.provideSystem(
-          `You are a helpful assistant for the Effect Typescript library Discord community.
+          `You are a helpful assistant for the Gel database Discord community.
 
 Create a short title summarizing the message. Do not include markdown in the title.`,
         ),
@@ -100,7 +100,7 @@ Create a short title summarizing the message. Do not include markdown in the tit
         ),
         Effect.flatMap(completions.create),
         AiInput.provideSystem(
-          `You are a helpful assistant for the Effect Typescript library Discord community.
+          `You are a helpful assistant for the Gel database Discord community.
 
 The title of this chat is "${title}".`,
         ),

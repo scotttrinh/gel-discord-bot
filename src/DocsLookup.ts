@@ -7,8 +7,8 @@ import { Mutable } from "effect/Types"
 import * as Prettier from "prettier"
 import fuzzysort from "fuzzysort"
 
-const docUrls = [
-  "https://raw.githubusercontent.com/tim-smart/effect-io-ai/refs/heads/main/json/_all.json",
+const docUrls: string[] = [
+  // Gel docs raw JSON
 ]
 
 const make = Effect.gen(function* () {
@@ -68,7 +68,7 @@ const make = Effect.gen(function* () {
   const command = Ix.global(
     {
       name: "docs",
-      description: "Search the Effect reference docs",
+      description: "Search the Gel reference docs",
       options: [
         {
           type: Discord.ApplicationCommandOptionType.STRING,
@@ -202,7 +202,8 @@ class DocEntry extends Schema.Class<DocEntry>("DocEntry")({
       this.project === "effect"
         ? "effect/effect"
         : this.project.replace(/^@/g, "")
-    return `https://effect-ts.github.io/${project}/${this.module.name}.html#${this.name.toLowerCase()}`
+    // TODO: return URL to the docs
+    return ""//`https://gel-ts.github.io/${project}/${this.module.name}.html#${this.name.toLowerCase()}`
   }
 
   get moduleTitle() {

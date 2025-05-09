@@ -10,10 +10,10 @@ const make = Effect.gen(function* () {
     Config.withDefault("[noembed]"),
   )
   const urlWhitelist = yield* Config.array(Config.string("urlWhitelist")).pipe(
-    Config.withDefault(["effect.website"]),
+    Config.withDefault(["geldata.com"]),
   )
   const urlExclude = yield* Config.array(Config.string("urlExclude")).pipe(
-    Config.withDefault(["effect.website/play"]),
+    Config.withDefault([]),
   )
   const gateway = yield* DiscordGateway
   const rest = yield* DiscordREST
