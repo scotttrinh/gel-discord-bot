@@ -8,23 +8,6 @@ import { Discord, DiscordREST } from "dfx"
 import { DiscordApplication } from "./Discord.js"
 import { HttpClient } from "@effect/platform"
 
-export const OpenAiLive = OpenAiClient.layerConfig({
-  apiKey: Config.redacted("OPENAI_API_KEY"),
-  organizationId: Config.redacted("OPENAI_ORGANIZATION").pipe(
-    Config.withDefault(undefined),
-  ),
-  transformClient: Config.succeed(
-    HttpClient.retryTransient({
-      times: 3,
-      schedule: Schedule.exponential(500),
-    }),
-  ),
-}).pipe(Layer.provide(NodeHttpClient.layerUndici))
-
-export const OpenAiCompletionsLive = OpenAiCompletions.layer({
-  model: "gpt-4o",
-}).pipe(Layer.provide(OpenAiLive))
-
 export const GeminiLive = OpenAiClient.layerConfig({
   apiKey: Config.redacted("GEMINI_API_KEY"),
   apiUrl: Config.string("GEMINI_BASE_URL").pipe(
